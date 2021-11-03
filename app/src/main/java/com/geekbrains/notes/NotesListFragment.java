@@ -27,21 +27,34 @@ public class NotesListFragment extends Fragment {
     }
 
     private void initView(View view) {
-        Notes note_1 = new Notes("Заголовок заметки 1", "содержание заметки 1", "01.11.2021");
-        Notes note_2 = new Notes("Заголовок заметки 2", "содержание заметки 2", "02.11.2021");
-        Notes note_3 = new Notes("Заголовок заметки 3", "содержание заметки 3", "03.11.2021");
-        Notes note_4 = new Notes("Заголовок заметки 4", "содержание заметки 4", "04.11.2021");
 
         LinearLayout notesListLayout = (LinearLayout) view;
-        Notes[] notes = {note_1, note_2, note_3, note_4};
 
-        for (Notes note : notes) {
+        for (int i = 0; i < MainActivity.notes.length; i++) {
+            Notes note = MainActivity.notes[i];
             TextView noteTextView = new TextView(getContext());
+
             noteTextView.setText(note.getHeadline());
             noteTextView.setTextSize(30);
             noteTextView.setTextColor(Color.BLACK);
+
+            final int position = i;
+            noteTextView.setOnClickListener(v -> {
+                showNote(position);
+
+            });
             notesListLayout.addView(noteTextView);
         }
 
     }
+
+    void showNote(int position) {
+        NoteDetailFragment noteDetail = NoteDetailFragment.newInstance(position);
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.notesListFragment_container, noteDetail)
+                .commit();
+    }
+
 }
