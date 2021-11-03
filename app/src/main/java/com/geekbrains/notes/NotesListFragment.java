@@ -1,5 +1,6 @@
 package com.geekbrains.notes;
 
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -48,13 +49,34 @@ public class NotesListFragment extends Fragment {
 
     }
 
-    void showNote(int position) {
+    private void showNote(int position) {
+        if (isLand()) {
+            showNoteLand(position);
+        } else {
+            showNotePort(position);
+        }
+    }
+
+    void showNoteLand(int position) {
+        NoteDetailFragment noteDetail = NoteDetailFragment.newInstance(position);
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.noteDetailFragment_container, noteDetail)
+                .commit();
+    }
+
+
+    void showNotePort(int position) {
         NoteDetailFragment noteDetail = NoteDetailFragment.newInstance(position);
         requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null)
                 .replace(R.id.notesListFragment_container, noteDetail)
                 .commit();
+    }
+
+    private boolean isLand(){
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
 }
