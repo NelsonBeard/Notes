@@ -58,20 +58,19 @@ public class NotesListFragment extends Fragment {
     }
 
     void showNoteLand(int position) {
-        NoteDetailFragment noteDetail = NoteDetailFragment.newInstance(position);
         requireActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.noteDetailFragment_container, noteDetail)
+                .addToBackStack(null)
+                .replace(R.id.noteDetailFragment_container, NoteDetailFragment.newInstance(position))
                 .commit();
     }
 
 
     void showNotePort(int position) {
-        NoteDetailFragment noteDetail = NoteDetailFragment.newInstance(position);
-        requireActivity().getSupportFragmentManager()
+              getChildFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null)
-                .replace(R.id.notesListFragment_container, noteDetail)
+                .replace(R.id.noteDetailFragment_container, NoteDetailFragment.newInstance(position))
                 .commit();
     }
 
