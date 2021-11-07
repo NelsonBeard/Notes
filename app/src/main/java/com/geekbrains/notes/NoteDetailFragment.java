@@ -27,6 +27,17 @@ public class NoteDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
+        buttonBackPressed(view);
+
+    }
+
+
+
+    private void buttonBackPressed(View view) {
+        view.findViewById(R.id.buttonBack).setOnClickListener(v -> {
+            getParentFragmentManager().popBackStack();
+            requireActivity().getSupportFragmentManager().popBackStack();
+        });
     }
 
     public static NoteDetailFragment newInstance(int position) {

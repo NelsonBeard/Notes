@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/notes_container"
-    tools:context=".NotesListFragment">
+    tools:context=".NotesListFragment"
+    android:id="@+id/noteDetailFragment_container">
 
 </LinearLayout>
