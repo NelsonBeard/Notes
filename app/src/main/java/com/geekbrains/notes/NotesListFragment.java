@@ -25,11 +25,12 @@ public class NotesListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
+
     }
 
     private void initView(View view) {
 
-        LinearLayout notesListLayout = (LinearLayout) view;
+        LinearLayout notesListLayout = view.findViewById(R.id.noteDetailFragment_container);
 
         for (int i = 0; i < MainActivity.notes.length; i++) {
             Notes note = MainActivity.notes[i];
@@ -68,14 +69,15 @@ public class NotesListFragment extends Fragment {
 
     void showNotePort(int position) {
               getChildFragmentManager()
-                .beginTransaction()
-                .addToBackStack(null)
-                .replace(R.id.noteDetailFragment_container, NoteDetailFragment.newInstance(position))
-                .commit();
+                      .beginTransaction()
+                      .addToBackStack(null)
+                      .replace(R.id.noteDetailChildFragment_container, NoteDetailFragment.newInstance(position))
+                      .commit();
     }
 
     private boolean isLand(){
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
+
 
 }

@@ -36,7 +36,7 @@ public class NoteDetailFragment extends Fragment {
     private void buttonBackPressed(View view) {
         view.findViewById(R.id.buttonBack).setOnClickListener(v -> {
             getParentFragmentManager().popBackStack();
-            requireActivity().getSupportFragmentManager().popBackStack();
+
         });
     }
 

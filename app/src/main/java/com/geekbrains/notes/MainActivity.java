@@ -22,30 +22,23 @@ public class MainActivity extends AppCompatActivity {
         Notes note_4 = new Notes("Заголовок заметки 4", "содержание заметки 4", "04.11.2021");
         notes = new Notes[]{note_1, note_2, note_3, note_4};
 
-        findViewById(R.id.buttonSettings).setOnClickListener(v -> {
-
-        });
-
-        View notesListLayout = findViewById(R.id.mainMenuLayout);
         findViewById(R.id.buttonNotesList).setOnClickListener(v -> {
-
-            notesListLayout.setVisibility(View.INVISIBLE);
 
             getSupportFragmentManager()
                     .beginTransaction()
+                    .addToBackStack("")
                     .replace(R.id.notesListFragment_container, new NotesListFragment())
                     .commit();
         });
         findViewById(R.id.buttonSettings).setOnClickListener(v -> {
-            Toast toast = Toast.makeText(this, "Какие-то настройки",Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "Какие-то настройки",Toast.LENGTH_SHORT);
             toast.show();
         });
         findViewById(R.id.buttonInfo).setOnClickListener(v -> {
-            Toast toast = Toast.makeText(this, "Информация о приложении",Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "Информация о приложении",Toast.LENGTH_SHORT);
             toast.show();
         });
     }
-
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getFragments().size() > 0) {
