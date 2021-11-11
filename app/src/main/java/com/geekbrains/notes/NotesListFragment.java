@@ -37,7 +37,7 @@ public class NotesListFragment extends Fragment {
 
     private void initView(View view) {
 
-        LinearLayout notesListLayout = view.findViewById(R.id.noteDetailFragment_container);
+        LinearLayout notesListLayout = view.findViewById(R.id.notes_detail);
 
         for (int i = 0; i < MainActivity.notes.length; i++) {
             Notes note = MainActivity.notes[i];
