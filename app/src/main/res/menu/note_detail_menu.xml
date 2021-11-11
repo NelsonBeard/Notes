@@ -6,13 +6,12 @@
         android:id="@+id/action_addPhoto"
         android:title="Добавить фотографию"
         app:showAsAction="always"
-        android:icon="@android:drawable/ic_menu_add"
-        />
+        android:icon="@android:drawable/ic_menu_add" />
 
     <item
         android:id="@+id/action_share"
         android:title="Поделиться"
         app:showAsAction="always"
-        android:icon="@android:drawable/ic_menu_send"
-        />
+        android:icon="@android:drawable/ic_menu_send" />
+
 </menu>
