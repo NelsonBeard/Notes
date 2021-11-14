@@ -1,5 +1,7 @@
 package com.geekbrains.notes;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,12 +21,11 @@ public class NoteDetailFragment extends Fragment {
     private static final String ARG_POSITION = "ARG_POSITION";
     private int position = -1;
 
-    public NoteDetailFragment() {
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_note_detail, container, false);
     }
 
@@ -33,10 +34,7 @@ public class NoteDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         buttonBackPressed(view);
-        setHasOptionsMenu(true);
-
     }
-
 
 
     private void buttonBackPressed(View view) {
@@ -66,14 +64,14 @@ public class NoteDetailFragment extends Fragment {
 
     private void initView(View view) {
         Notes note = MainActivity.notes[position];
-            TextView headlineTextView = view.findViewById(R.id.headline);
-            headlineTextView.setText(note.getHeadline());
+        TextView headlineTextView = view.findViewById(R.id.headline);
+        headlineTextView.setText(note.getHeadline());
 
-            TextView fullTextTextView = view.findViewById(R.id.fullText);
-            fullTextTextView.setText(note.getFullText());
+        TextView fullTextTextView = view.findViewById(R.id.fullText);
+        fullTextTextView.setText(note.getFullText());
 
-            TextView dateTextView = view.findViewById(R.id.date);
-            dateTextView.setText(note.getDate());
+        TextView dateTextView = view.findViewById(R.id.date);
+        dateTextView.setText(note.getDate());
 
     }
 
@@ -83,16 +81,39 @@ public class NoteDetailFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item){
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.action_addPhoto:
                 Toast.makeText(getActivity(), "Добавление фото к заметке", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_share:
                 Toast.makeText(getActivity(), "Поделиться заметкой", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.action_delete:
+                deleteNoteAlertDialog();
+                return true;
         }
         return onOptionsItemSelected(item);
+    }
+
+    private void deleteNoteAlertDialog() {
+        new AlertDialog.Builder(getActivity())
+                .setCancelable(true)
+                .setTitle("Удалить заметку?")
+                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity(), "Заметка удалена", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
     }
 }
