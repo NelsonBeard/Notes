@@ -44,7 +44,7 @@ public class NotesListFragment extends Fragment {
             TextView noteTextView = new TextView(getContext());
 
             noteTextView.setText(note.getHeadline());
-            noteTextView.setTextSize(getResources().getDimension(R.dimen.headLine_textSize));
+            noteTextView.setTextSize(getResources().getDimension(R.dimen.headLine_textSize) / getResources().getDisplayMetrics().scaledDensity);
             noteTextView.setTextColor(Color.BLACK);
 
             final int position = i;
@@ -53,7 +53,6 @@ public class NotesListFragment extends Fragment {
             });
             notesListLayout.addView(noteTextView);
         }
-
     }
 
     private void showNote(int position) {

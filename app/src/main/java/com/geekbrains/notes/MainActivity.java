@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack("")
                 .replace(R.id.notesListFragment_container, new NotesListFragment())
                 .commit();
-
-
     }
 
     @Override

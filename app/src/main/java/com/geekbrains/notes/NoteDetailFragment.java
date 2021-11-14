@@ -1,5 +1,6 @@
 package com.geekbrains.notes;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,10 +40,12 @@ public class NoteDetailFragment extends Fragment {
 
 
     private void buttonBackPressed(View view) {
-        view.findViewById(R.id.buttonBack).setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().popBackStack();
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            view.findViewById(R.id.buttonBack).setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager().popBackStack();
 
-        });
+            });
+        }
     }
 
     public static NoteDetailFragment newInstance(int position) {
