@@ -41,24 +41,11 @@ public class NotesListFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         NotesAdapter adapter = new NotesAdapter(Arrays.asList(MainActivity.notes));
+        adapter.setClickListener((view1, position) -> {
+            showNote(position);
+        });
         recyclerView.setAdapter(adapter);
 
-//        LinearLayout notesListLayout = view.findViewById(R.id.notes_detail);
-//
-//        for (int i = 0; i < MainActivity.notes.length; i++) {
-//            Notes note = MainActivity.notes[i];
-//            TextView noteTextView = new TextView(getContext());
-//
-//            noteTextView.setText(note.getHeadline());
-//            noteTextView.setTextSize(getResources().getDimension(R.dimen.headLine_textSize) / getResources().getDisplayMetrics().scaledDensity);
-//            noteTextView.setTextColor(Color.BLACK);
-//
-//            final int position = i;
-//            noteTextView.setOnClickListener(v -> {
-//                showNote(position);
-//            });
-//            notesListLayout.addView(noteTextView);
-//        }
     }
 
     private void showNote(int position) {
