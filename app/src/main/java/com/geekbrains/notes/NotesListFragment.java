@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,16 +22,14 @@ public class NotesListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_notes_list, container, false);
-
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
-        setHasOptionsMenu(true);
-
     }
 
     private void initView(View view) {
@@ -74,25 +71,26 @@ public class NotesListFragment extends Fragment {
 
     void showNotePort(int position) {
         requireActivity().getSupportFragmentManager()
-                      .beginTransaction()
-                      .addToBackStack(null)
-                      .replace(R.id.notesListFragment_container, NoteDetailFragment.newInstance(position))
-                      .commit();
+                .beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.notesListFragment_container, NoteDetailFragment.newInstance(position))
+                .commit();
     }
 
-    private boolean isLand(){
+    private boolean isLand() {
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull  MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.notes_list_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
 
     }
+
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item){
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.action_search:
                 Toast.makeText(getActivity(), "Поиск", Toast.LENGTH_SHORT).show();
                 return true;
@@ -102,4 +100,5 @@ public class NotesListFragment extends Fragment {
         }
         return onOptionsItemSelected(item);
     }
+
 }
