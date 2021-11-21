@@ -1,26 +1,23 @@
 package com.geekbrains.notes;
 
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Arrays;
-
 public class NotesListFragment extends Fragment {
+    public NoteSource source = new NoteSourceImp(getActivity());
+    private NotesAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,11 +33,10 @@ public class NotesListFragment extends Fragment {
     }
 
 
-
     private void initView(View view) {
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        NotesAdapter adapter = new NotesAdapter(Arrays.asList(MainActivity.notes));
+        adapter = new NotesAdapter(this, source);
         adapter.setClickListener((view1, position) -> {
             showNote(position);
         });
@@ -87,14 +83,36 @@ public class NotesListFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
-                Toast.makeText(getActivity(), "Поиск", Toast.LENGTH_SHORT).show();
+            case R.id.action_clear:
+                int size = source.size();
+                source.clearNotes();
+                adapter.notifyItemRangeRemoved(0, size);
                 return true;
-            case R.id.action_sort:
-                Toast.makeText(getActivity(), "Сортировка заметок", Toast.LENGTH_SHORT).show();
+            case R.id.action_newNote:
+                source.addNote(new Note("", "", ""));
+                adapter.notifyItemInserted(source.size() - 1);
                 return true;
         }
         return onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        requireActivity().getMenuInflater().inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_delete) {
+            deleteNote();
+            return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    public void deleteNote(){
+        source.deleteNote(adapter.getMenuPosition());
+        adapter.notifyItemRemoved(adapter.getMenuPosition());
+    }
 }

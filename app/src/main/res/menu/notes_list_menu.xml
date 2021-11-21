@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_sort"
-        android:title="Поиск"
+        android:id="@+id/action_newNote"
+        android:title="Новая заметка"
         app:showAsAction="always"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:icon="@android:drawable/ic_menu_add"
         />
 
     <item
-        android:id="@+id/action_search"
-        android:title="Поиск"
+        android:id="@+id/action_clear"
+        android:title="Удалить все заметки"
         app:showAsAction="always"
-        android:icon="@android:drawable/ic_search_category_default"
+        android:icon="@android:drawable/ic_delete"
         />
 
 </menu>

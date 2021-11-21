@@ -1,26 +1,34 @@
 package com.geekbrains.notes;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.List;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
 
-    private List<Notes> notesList;
+    private NoteSource source;
     private OnNoteClickListener clickListener;
+    private final Fragment fragment;
+    private int menuPosition = -1;
 
-    public NotesAdapter(List<Notes> notesList) {
-        this.notesList = notesList;
+    public NotesAdapter(Fragment fragment, NoteSource source) {
+        this.source = source;
+        this.fragment = fragment;
     }
 
     public void setClickListener(OnNoteClickListener clickListener) {
         this.clickListener = clickListener;
+    }
+
+    public int getMenuPosition() {
+        return menuPosition;
     }
 
     @NonNull
@@ -32,14 +40,15 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         );
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull NotesAdapter.NotesViewHolder holder, int position) {
-        holder.bind(notesList.get(position));
+        holder.bind(source.getNote(position));
     }
 
     @Override
     public int getItemCount() {
-        return notesList.size();
+        return source.size();
     }
 
     class NotesViewHolder extends RecyclerView.ViewHolder {
@@ -48,14 +57,22 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
         public NotesViewHolder(@NonNull View itemView) {
             super(itemView);
+            fragment.registerForContextMenu(itemView);
         }
 
-        void bind(Notes note) {
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        void bind(Note note) {
             headLine.setText(note.getHeadline());
             headLine.setOnClickListener(v -> {
-                if (clickListener != null){
-                  clickListener.onNoteClick(v, getAdapterPosition());
+                if (clickListener != null) {
+                    clickListener.onNoteClick(v, getAdapterPosition());
                 }
+            });
+
+            headLine.setOnLongClickListener(v -> {
+                menuPosition = getLayoutPosition();
+                itemView.showContextMenu(10, 10);
+                return true;
             });
         }
     }
