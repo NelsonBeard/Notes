@@ -1,10 +1,15 @@
 package com.geekbrains.notes;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,16 +33,19 @@ public class NoteDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         buttonBackPressed(view);
+        setHasOptionsMenu(true);
 
     }
 
 
 
     private void buttonBackPressed(View view) {
-        view.findViewById(R.id.buttonBack).setOnClickListener(v -> {
-            getParentFragmentManager().popBackStack();
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            view.findViewById(R.id.buttonBack).setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager().popBackStack();
 
-        });
+            });
+        }
     }
 
     public static NoteDetailFragment newInstance(int position) {
@@ -67,5 +75,24 @@ public class NoteDetailFragment extends Fragment {
             TextView dateTextView = view.findViewById(R.id.date);
             dateTextView.setText(note.getDate());
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.note_detail_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        switch (item.getItemId()){
+            case R.id.action_addPhoto:
+                Toast.makeText(getActivity(), "Добавление фото к заметке", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_share:
+                Toast.makeText(getActivity(), "Поделиться заметкой", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return onOptionsItemSelected(item);
     }
 }
