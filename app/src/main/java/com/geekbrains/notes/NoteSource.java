@@ -9,7 +9,7 @@ public interface NoteSource {
 
     void updateNote(int position, Note note);
 
-    void addNote(Note note);
+    void addNote(int position, Note note);
 
     void clearNotes();
 }

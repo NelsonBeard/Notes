@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class NotesListFragment extends Fragment {
     public NoteSource source = new NoteSourceImp(getActivity());
     private NotesAdapter adapter;
+    private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,7 +36,7 @@ public class NotesListFragment extends Fragment {
 
     private void initView(View view) {
 
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
         adapter = new NotesAdapter(this, source);
         adapter.setClickListener((view1, position) -> {
             showNote(position);
@@ -89,8 +90,9 @@ public class NotesListFragment extends Fragment {
                 adapter.notifyItemRangeRemoved(0, size);
                 return true;
             case R.id.action_newNote:
-                source.addNote(new Note("", "", ""));
-                adapter.notifyItemInserted(source.size() - 1);
+                source.addNote(0, new Note("", "", ""));
+                adapter.notifyItemInserted(0);
+                recyclerView.scrollToPosition(0);
                 return true;
         }
         return onOptionsItemSelected(item);
