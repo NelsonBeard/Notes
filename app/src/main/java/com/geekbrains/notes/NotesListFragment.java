@@ -106,15 +106,18 @@ public class NotesListFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_delete) {
-            deleteNote();
-            return true;
+
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                source.deleteNote(adapter.getMenuPosition());
+                adapter.notifyItemRemoved(adapter.getMenuPosition());
+                return true;
+            case R.id.action_update:
+                source.updateNote(adapter.getMenuPosition(), new Note("", "", ""));
+                adapter.notifyItemChanged(adapter.getMenuPosition());
+                return true;
         }
         return super.onContextItemSelected(item);
     }
 
-    public void deleteNote(){
-        source.deleteNote(adapter.getMenuPosition());
-        adapter.notifyItemRemoved(adapter.getMenuPosition());
-    }
 }

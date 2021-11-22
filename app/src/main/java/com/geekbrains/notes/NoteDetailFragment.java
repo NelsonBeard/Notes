@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,8 +21,10 @@ public class NoteDetailFragment extends Fragment {
     private static final String ARG_POSITION = "ARG_POSITION";
     private int position = -1;
 
-    public NoteSource source = new NoteSourceImp(getActivity());
+    private NoteSource source = new NoteSourceImp(getActivity());
     private NotesAdapter adapter;
+
+    private Note note;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +39,6 @@ public class NoteDetailFragment extends Fragment {
         initView(view);
         buttonBackPressed(view);
     }
-
 
     private void buttonBackPressed(View view) {
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
@@ -64,7 +66,7 @@ public class NoteDetailFragment extends Fragment {
     }
 
     private void initView(View view) {
-        Note note = NoteSourceImp.notes.get(position);
+        note = NoteSourceImp.notes.get(position);
         TextView headlineTextView = view.findViewById(R.id.headline);
         headlineTextView.setText(note.getHeadline());
 
