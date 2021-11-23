@@ -1,8 +1,8 @@
 package com.geekbrains.notes;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,7 +20,7 @@ public class NoteDetailFragment extends Fragment {
     private static final String ARG_POSITION = "ARG_POSITION";
     private int position = -1;
 
-    private NoteSource source = new NoteSourceImp(getActivity());
+    private NoteSource source;
     private NotesAdapter adapter;
 
     private Note note;
@@ -41,12 +40,10 @@ public class NoteDetailFragment extends Fragment {
     }
 
     private void buttonBackPressed(View view) {
-        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-            view.findViewById(R.id.buttonBack).setOnClickListener(v -> {
-                requireActivity().getSupportFragmentManager().popBackStack();
-
-            });
-        }
+        view.findViewById(R.id.buttonBack).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager().popBackStack();
+            updateNote(view);
+        });
     }
 
     public static NoteDetailFragment newInstance(int position) {
@@ -66,17 +63,13 @@ public class NoteDetailFragment extends Fragment {
     }
 
     private void initView(View view) {
-        note = NoteSourceImp.notes.get(position);
-        TextView headlineTextView = view.findViewById(R.id.headline);
-        headlineTextView.setText(note.getHeadline());
 
-        TextView fullTextTextView = view.findViewById(R.id.fullText);
-        fullTextTextView.setText(note.getFullText());
-
-        TextView dateTextView = view.findViewById(R.id.date);
-        dateTextView.setText(note.getDate());
+        source = new PreferencesNoteSource(getActivity().getPreferences(Context.MODE_PRIVATE));
         adapter = new NotesAdapter(this, source);
 
+        note = source.getNote(position);
+
+        updateNote(view);
     }
 
     @Override
@@ -110,5 +103,16 @@ public class NoteDetailFragment extends Fragment {
                 })
                 .setNegativeButton("Нет", (dialog, which) -> dialog.cancel())
                 .show();
+    }
+
+    private void updateNote(View view) {
+        TextView headlineTextView = view.findViewById(R.id.headline);
+        headlineTextView.setText(note.getHeadline());
+
+        TextView fullTextTextView = view.findViewById(R.id.fullText);
+        fullTextTextView.setText(note.getFullText());
+
+        TextView dateTextView = view.findViewById(R.id.date);
+        dateTextView.setText(note.getDate());
     }
 }

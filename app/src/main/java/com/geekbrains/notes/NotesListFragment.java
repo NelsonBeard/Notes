@@ -1,5 +1,7 @@
 package com.geekbrains.notes;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -16,14 +18,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class NotesListFragment extends Fragment {
-    public NoteSource source = new NoteSourceImp(getActivity());
+    private NoteSource source;
     private NotesAdapter adapter;
     private RecyclerView recyclerView;
+
+    private SharedPreferences sharedPref = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+
         return inflater.inflate(R.layout.fragment_notes_list, container, false);
     }
 
@@ -31,18 +36,18 @@ public class NotesListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
+
     }
 
-
     private void initView(View view) {
-
         recyclerView = view.findViewById(R.id.recycler_view);
+        source = new PreferencesNoteSource(getActivity().getPreferences(Context.MODE_PRIVATE));
+
         adapter = new NotesAdapter(this, source);
         adapter.setClickListener((view1, position) -> {
             showNote(position);
         });
         recyclerView.setAdapter(adapter);
-
     }
 
     private void showNote(int position) {
@@ -90,7 +95,7 @@ public class NotesListFragment extends Fragment {
                 adapter.notifyItemRangeRemoved(0, size);
                 return true;
             case R.id.action_newNote:
-                source.addNote(0, new Note("", "", ""));
+                source.addNote(0, new Note("af", "dsa", ""));
                 adapter.notifyItemInserted(0);
                 recyclerView.scrollToPosition(0);
                 return true;
