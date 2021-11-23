@@ -6,17 +6,17 @@
     android:background="@color/cardview_shadow_end_color"    >
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/header_userPhoto_size"
+        android:layout_height="@dimen/header_userPhoto_size"
         android:layout_gravity="center"
         android:src="@android:drawable/sym_def_app_icon"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Имя пользователя"
+        android:text="@string/username"
         android:textSize="@dimen/header_textSize"
-        android:layout_weight="1"
+        android:layout_weight="@dimen/header_username_weight"
         android:layout_gravity="center"
         android:textColor="@color/black"/>
 

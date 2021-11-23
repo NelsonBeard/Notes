@@ -66,10 +66,17 @@ public class NoteDetailFragment extends Fragment {
 
         source = new PreferencesNoteSource(getActivity().getPreferences(Context.MODE_PRIVATE));
         adapter = new NotesAdapter(this, source);
-
         note = source.getNote(position);
 
-        updateNote(view);
+        TextView headlineTextView = view.findViewById(R.id.headline);
+        headlineTextView.setText(note.getHeadline());
+
+        TextView fullTextTextView = view.findViewById(R.id.fullText);
+        fullTextTextView.setText(note.getFullText());
+
+        TextView dateTextView = view.findViewById(R.id.date);
+        dateTextView.setText(note.getDate());
+
     }
 
     @Override
@@ -77,7 +84,6 @@ public class NoteDetailFragment extends Fragment {
         inflater.inflate(R.menu.note_detail_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -106,13 +112,16 @@ public class NoteDetailFragment extends Fragment {
     }
 
     private void updateNote(View view) {
+
         TextView headlineTextView = view.findViewById(R.id.headline);
-        headlineTextView.setText(note.getHeadline());
+        String headline = headlineTextView.getText().toString();
 
         TextView fullTextTextView = view.findViewById(R.id.fullText);
-        fullTextTextView.setText(note.getFullText());
+        String fullText = fullTextTextView.getText().toString();
 
         TextView dateTextView = view.findViewById(R.id.date);
-        dateTextView.setText(note.getDate());
+        String date = dateTextView.getText().toString();
+
+        source.updateNote(position, new Note(headline, fullText, date));
     }
 }

@@ -9,10 +9,11 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PreferencesNoteSource implements NoteSource{
+public class PreferencesNoteSource implements NoteSource {
 
     private final SharedPreferences sharedPref;
     private List<Note> notesList;
+    private final String NOTE_DATA = "NOTE_DATA";
 
     public PreferencesNoteSource(SharedPreferences sharedPref) {
         this.sharedPref = sharedPref;
@@ -53,20 +54,21 @@ public class PreferencesNoteSource implements NoteSource{
         update();
     }
 
-    private void fetch(){
-        String json = sharedPref.getString("NOTE_DATA", null);
-              if (json == null){
-                  notesList = new ArrayList<>();
-              } else {
-                  Type type = new TypeToken<ArrayList<Note>>(){}.getType();
-                  notesList = new GsonBuilder().create().fromJson(json, type);
-              }
+    private void fetch() {
+        String json = sharedPref.getString(NOTE_DATA, null);
+        if (json == null) {
+            notesList = new ArrayList<>();
+        } else {
+            Type type = new TypeToken<ArrayList<Note>>() {
+            }.getType();
+            notesList = new GsonBuilder().create().fromJson(json, type);
+        }
     }
 
-    private void update(){
+    private void update() {
         String json = new GsonBuilder().create().toJson(notesList);
         sharedPref.edit()
-                .putString("NOTE_DATA", json)
+                .putString(NOTE_DATA, json)
                 .apply();
     }
 

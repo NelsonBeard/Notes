@@ -22,10 +22,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_info:
-                        Toast.makeText(MainActivity.this, "Информация о приложении", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, R.string.app_info_toast, Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.action_settings:
-                        Toast.makeText(MainActivity.this, "Настройки", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, R.string.settings_toast, Toast.LENGTH_SHORT).show();
                         return true;
                 }
                 return false;

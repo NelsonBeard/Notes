@@ -2,7 +2,6 @@ package com.geekbrains.notes;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -51,32 +50,11 @@ public class NotesListFragment extends Fragment {
     }
 
     private void showNote(int position) {
-        if (isLand()) {
-            showNoteLand(position);
-        } else {
-            showNotePort(position);
-        }
-    }
-
-    void showNoteLand(int position) {
-        requireActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .addToBackStack(null)
-                .replace(R.id.noteDetailFragment_container, NoteDetailFragment.newInstance(position))
-                .commit();
-    }
-
-
-    void showNotePort(int position) {
         requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null)
                 .replace(R.id.notesListFragment_container, NoteDetailFragment.newInstance(position))
                 .commit();
-    }
-
-    private boolean isLand() {
-        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
     @Override
@@ -95,7 +73,7 @@ public class NotesListFragment extends Fragment {
                 adapter.notifyItemRangeRemoved(0, size);
                 return true;
             case R.id.action_newNote:
-                source.addNote(0, new Note("af", "dsa", ""));
+                source.addNote(0, new Note("", "", ""));
                 adapter.notifyItemInserted(0);
                 recyclerView.scrollToPosition(0);
                 return true;
@@ -116,10 +94,6 @@ public class NotesListFragment extends Fragment {
             case R.id.action_delete:
                 source.deleteNote(adapter.getMenuPosition());
                 adapter.notifyItemRemoved(adapter.getMenuPosition());
-                return true;
-            case R.id.action_update:
-                source.updateNote(adapter.getMenuPosition(), new Note("", "", ""));
-                adapter.notifyItemChanged(adapter.getMenuPosition());
                 return true;
         }
         return super.onContextItemSelected(item);

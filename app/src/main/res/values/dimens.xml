@@ -4,4 +4,8 @@
     <dimen name="header_textSize">30sp</dimen>
     <dimen name="list_textSize">10sp</dimen>
     <dimen name="notes_list_margin">3dp</dimen>
+    <dimen name="fullText_weight">1</dimen>
+    <dimen name="header_username_weight">1</dimen>
+    <dimen name="header_userPhoto_size">100dp</dimen>
+
 </resources>
