@@ -3,4 +3,5 @@
     <dimen name="headLine_textSize">30sp</dimen>
     <dimen name="header_textSize">30sp</dimen>
     <dimen name="list_textSize">10sp</dimen>
+    <dimen name="notes_list_margin">3dp</dimen>
 </resources>
