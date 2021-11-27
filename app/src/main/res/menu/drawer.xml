@@ -5,11 +5,11 @@
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings"
-        android:title="Настройки"
+        android:title="@string/drawer_action_settings_text"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_info"
         android:icon="@android:drawable/ic_dialog_info"
-        android:title="Информация"
+        android:title="@string/drawer_action_info_text"
         app:showAsAction="always" />
 </menu>

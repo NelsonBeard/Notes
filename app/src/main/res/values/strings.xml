@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Notes</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_info_toast">Информация о приложении</string>
+    <string name="settings_toast">Настройки</string>
+    <string name="drawer_action_settings_text">Настройки</string>
+    <string name="drawer_action_info_text">Информация</string>
+    <string name="context_menu_action_delete_text">Удалить заметку</string>
+    <string name="note_detail_menu_action_delete_text">Удалить заметку</string>
+    <string name="notes_list_menu_action_newNote_text">Новая заметка</string>
+    <string name="notes_list_menu_action_clear_text">Удалить все заметки</string>
+    <string name="username">Имя пользователя</string>
 </resources>

@@ -19,6 +19,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     private int menuPosition = -1;
 
     public NotesAdapter(Fragment fragment, NoteSource source) {
+
         this.source = source;
         this.fragment = fragment;
     }
@@ -62,6 +63,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
         @RequiresApi(api = Build.VERSION_CODES.N)
         void bind(Note note) {
+
             headLine.setText(note.getHeadline());
             headLine.setOnClickListener(v -> {
                 if (clickListener != null) {
@@ -71,7 +73,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
             headLine.setOnLongClickListener(v -> {
                 menuPosition = getLayoutPosition();
-                itemView.showContextMenu(10, 10);
+                itemView.showContextMenu();
                 return true;
             });
         }
