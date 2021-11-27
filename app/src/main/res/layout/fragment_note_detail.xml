@@ -11,15 +11,16 @@
     tools:context=".NoteDetailFragment">
 
 
-    <TextView
+    <EditText
         android:id="@+id/headline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/headLine_textSize"
         android:gravity="center" />
 
-    <TextView
+    <EditText
         android:id="@+id/fullText"
+        android:gravity="start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>

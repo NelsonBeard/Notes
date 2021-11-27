@@ -10,8 +10,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +21,10 @@ public class NoteDetailFragment extends Fragment {
     private static final String ARG_POSITION = "ARG_POSITION";
     private int position = -1;
 
+    private NoteSource source = new NoteSourceImp(getActivity());
+    private NotesAdapter adapter;
+
+    private Note note;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,7 +39,6 @@ public class NoteDetailFragment extends Fragment {
         initView(view);
         buttonBackPressed(view);
     }
-
 
     private void buttonBackPressed(View view) {
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
@@ -63,7 +66,7 @@ public class NoteDetailFragment extends Fragment {
     }
 
     private void initView(View view) {
-        Notes note = MainActivity.notes[position];
+        note = NoteSourceImp.notes.get(position);
         TextView headlineTextView = view.findViewById(R.id.headline);
         headlineTextView.setText(note.getHeadline());
 
@@ -72,6 +75,7 @@ public class NoteDetailFragment extends Fragment {
 
         TextView dateTextView = view.findViewById(R.id.date);
         dateTextView.setText(note.getDate());
+        adapter = new NotesAdapter(this, source);
 
     }
 
@@ -85,12 +89,6 @@ public class NoteDetailFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_addPhoto:
-                Toast.makeText(getActivity(), "Добавление фото к заметке", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.action_share:
-                Toast.makeText(getActivity(), "Поделиться заметкой", Toast.LENGTH_SHORT).show();
-                return true;
             case R.id.action_delete:
                 deleteNoteAlertDialog();
                 return true;
@@ -105,15 +103,12 @@ public class NoteDetailFragment extends Fragment {
                 .setPositiveButton("Да", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getActivity(), "Заметка удалена", Toast.LENGTH_SHORT).show();
+                        requireActivity().getSupportFragmentManager().popBackStack();
+                        source.deleteNote(position);
+                        adapter.notifyItemRemoved(position);
                     }
                 })
-                .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                })
+                .setNegativeButton("Нет", (dialog, which) -> dialog.cancel())
                 .show();
     }
 }
